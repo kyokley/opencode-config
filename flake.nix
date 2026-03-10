@@ -18,9 +18,9 @@
 
       ];
       systems = [ "x86_64-linux" "aarch64-linux" "aarch64-darwin" "x86_64-darwin" ];
-      perSystem = { config, self', inputs', pkgs, system, ... }: 
+      perSystem = { config, self', inputs', pkgs, system, ... }:
         let
-          nodePackages = import ./node-packages.nix { inherit pkgs system; };
+          inherit (pkgs.callPackage ./default.nix {}) nodeDependencies;
         in
         {
           # Per-system attributes can be defined here. The self' and inputs'
@@ -41,10 +41,10 @@
             installPhase = ''
               mkdir -p $out/bin $out/lib/configs
               cp -r ./configs $out/lib/
-              cp -r ./node_modules $out/lib/
+              cp -r ${nodeDependencies}/lib/node_modules $out/lib/node_modules
 
               wrapProgram ${pkgs.opencode}/bin/opencode \
-                --prefix PATH : ${pkgs.nix}/bin
+                --set NODE_PATH $out/lib/node_modules
             '';
           };
         };
