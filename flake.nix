@@ -3,8 +3,8 @@
 
   inputs = {
     flake-parts.url = "github:hercules-ci/flake-parts";
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    old-nixpkgs.url = "github:NixOS/nixpkgs/ec7c70d12ce2fc37cb92aff673dcdca89d187bae";
+    # nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:NixOS/nixpkgs/ec7c70d12ce2fc37cb92aff673dcdca89d187bae";
   };
 
   outputs = inputs@{ flake-parts, ... }:
@@ -30,22 +30,29 @@
             name = "opencode-dev-shell";
             buildInputs = [
               pkgs.nodejs
-              inputs.old-nixpkgs.legacyPackages.${system}.node2nix
+              pkgs.node2nix
+              # inputs.old-nixpkgs.legacyPackages.${system}.node2nix
               pkgs.bun
             ];
           };
 
-          packages.default = nodePackages.package.override {
+          packages.default = pkgs.stdenv.mkDerivation {
+            name = "opencode";
             src = ./.;
-            buildInputs = [ pkgs.makeWrapper pkgs.nix ];
+            buildInputs = [ pkgs.makeWrapper ];
             installPhase = ''
               mkdir -p $out/bin $out/lib/configs
               cp -r ./configs $out/lib/
               cp -r ${nodeDependencies}/lib/node_modules $out/lib/node_modules
 
-              wrapProgram ${pkgs.opencode}/bin/opencode \
+              makeWrapper ${pkgs.opencode}/bin/opencode $out/bin/opencode \
                 --set NODE_PATH $out/lib/node_modules
             '';
+          };
+
+          apps.default = {
+            type = "app";
+            program = "${self'.packages.default}/bin/opencode";
           };
         };
       flake = {
