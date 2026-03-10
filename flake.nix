@@ -23,7 +23,20 @@
         # system.
 
         # Equivalent to  inputs'.nixpkgs.legacyPackages.hello;
-        packages.default = pkgs.hello;
+        packages.default = stdenv.mkDerivation {
+          name = "opencode";
+          src = ./.;
+
+          nativeBuildInputs = [ pkgs.makeWrapper ];
+
+          installPhase = ''
+            mkdir -p $out/bin $out/lib/configs
+            cp -r ./configs $out/lib/
+
+            wrapProgram ${pkgs.opencode}/bin/opencode \
+              --prefix PATH : ${pkgs.nix}/bin
+          '';
+        };
       };
       flake = {
         # The usual flake attributes can be defined here, including system-
