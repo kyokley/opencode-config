@@ -4,6 +4,7 @@
   inputs = {
     flake-parts.url = "github:hercules-ci/flake-parts";
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    old-nixpkgs.url = "github:NixOS/nixpkgs/ec7c70d12ce2fc37cb92aff673dcdca89d187bae";
   };
 
   outputs = inputs@{ flake-parts, ... }:
@@ -21,17 +22,26 @@
         # Per-system attributes can be defined here. The self' and inputs'
         # module parameters provide easy access to attributes of the same
         # system.
+        devShells.default = pkgs.mkShell {
+          name = "opencode-dev-shell";
+          buildInputs = [
+            pkgs.nodejs
+            inputs.old-nixpkgs.legacyPackages.${system}.node2nix
+            pkgs.bun
+          ];
+        };
 
-        # Equivalent to  inputs'.nixpkgs.legacyPackages.hello;
-        packages.default = stdenv.mkDerivation {
+        packages.default = pkgs.stdenv.mkDerivation {
           name = "opencode";
           src = ./.;
 
           nativeBuildInputs = [ pkgs.makeWrapper ];
+          buildInputs = [];
 
           installPhase = ''
             mkdir -p $out/bin $out/lib/configs
             cp -r ./configs $out/lib/
+            cp -r ${config.packages.node-modules}/node_modules $out/lib/
 
             wrapProgram ${pkgs.opencode}/bin/opencode \
               --prefix PATH : ${pkgs.nix}/bin

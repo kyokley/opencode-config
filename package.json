@@ -1,4 +1,5 @@
 {
+  "name": "opencode",
   "dependencies": {
     "agent-browser": "^0.17.1"
   }
