@@ -41,7 +41,7 @@
             src = ./.;
             buildInputs = [ pkgs.makeWrapper ];
             installPhase = ''
-              mkdir -p $out/bin $out/lib/configs
+              mkdir -p $out/bin $out/lib
               cp -r ./configs $out/lib/
               cp -r ${nodeDependencies}/lib/node_modules $out/lib/node_modules
 
