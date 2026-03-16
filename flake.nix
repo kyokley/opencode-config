@@ -46,7 +46,8 @@
               cp -r ${nodeDependencies}/lib/node_modules $out/lib/node_modules
 
               makeWrapper ${pkgs.opencode}/bin/opencode $out/bin/opencode \
-                --set NODE_PATH $out/lib/node_modules
+                --set NODE_PATH $out/lib/node_modules \
+                --prefix PATH : "${pkgs.lib.makeBinPath [ pkgs.typescript-language-server ]}"
             '';
           };
 
