@@ -46,6 +46,28 @@
         "variant": "low",
         "skills": [],
         "mcps": []
+      },
+      "council": {
+        "model": "github-copilot/gpt-5.4",
+        "master": {
+          "model": "github-copilot/gpt-5.4"
+        },
+        "presets": {
+          "default": {
+            "alpha": {
+              "model": "github-copilot/gpt-5.4-mini"
+            },
+            "beta": {
+              "model": "github-copilot/claude-haiku-4.5"
+            },
+            "gamma": {
+              "model": "github-copilot/gemini-3.1-pro"
+            },
+            "delta": {
+              "model": "github-copilot/gpt-5.3-codex"
+            }
+          }
+        }
       }
     }
   },

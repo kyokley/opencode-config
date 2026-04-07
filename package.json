@@ -1,6 +1,7 @@
 {
   "name": "opencode",
   "dependencies": {
-    "agent-browser": "^0.17.1"
+    "agent-browser": "^0.17.1",
+    "oh-my-opencode-slim": "^0.9.2"
   }
 }

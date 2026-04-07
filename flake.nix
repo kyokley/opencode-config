@@ -1,10 +1,10 @@
 {
-  description = "Description for the project";
+  description = "Opencode Config";
 
   inputs = {
     flake-parts.url = "github:hercules-ci/flake-parts";
-    # nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    nixpkgs.url = "github:NixOS/nixpkgs/ec7c70d12ce2fc37cb92aff673dcdca89d187bae";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    bun3nix.url = "github:aabccd021/bun3nix";
   };
 
   outputs = inputs@{ flake-parts, ... }:
@@ -21,6 +21,7 @@
       perSystem = { config, self', inputs', pkgs, system, ... }:
         let
           inherit (pkgs.callPackage ./default.nix {}) nodeDependencies;
+          npm_deps = import ./npm-deps.nix { inherit pkgs; };
         in
         {
           # Per-system attributes can be defined here. The self' and inputs'
@@ -30,9 +31,8 @@
             name = "opencode-dev-shell";
             buildInputs = [
               pkgs.nodejs
-              pkgs.node2nix
-              # inputs.old-nixpkgs.legacyPackages.${system}.node2nix
               pkgs.bun
+              inputs.bun3nix.packages.${system}.default
             ];
           };
 
@@ -43,7 +43,7 @@
             installPhase = ''
               mkdir -p $out/bin $out/lib
               cp -r ./configs $out/lib/
-              cp -r ${nodeDependencies}/lib/node_modules $out/lib/node_modules
+              ln -s ${npm_deps}/lib/node_modules $out/lib/node_modules
 
               makeWrapper ${pkgs.opencode}/bin/opencode $out/bin/opencode \
                 --set NODE_PATH $out/lib/node_modules \
