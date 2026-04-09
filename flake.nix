@@ -5,6 +5,11 @@
     flake-parts.url = "github:hercules-ci/flake-parts";
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     bun3nix.url = "github:aabccd021/bun3nix";
+
+    bun2nix = {
+    url = "github:nix-community/bun2nix";
+    inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = inputs@{ flake-parts, ... }:
@@ -33,6 +38,7 @@
               pkgs.nodejs
               pkgs.bun
               inputs.bun3nix.packages.${system}.default
+              inputs.bun2nix.packages.${system}.default
             ];
           };
 
