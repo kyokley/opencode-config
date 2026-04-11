@@ -559,8 +559,8 @@ let
     );
     "node_modules/oh-my-opencode-slim/" = extractTarball (
       pkgs.fetchurl {
-        url = "https://registry.npmjs.org/oh-my-opencode-slim/-/oh-my-opencode-slim-0.9.4.tgz";
-        hash = "sha512-0XrgvLiHFUx0001MNc4xaibeajb7IZ9RoCgB8t40VAw1hIGv5AXgtcsYkR2yQ6fYvAOVQ7f8VFZ2mjwSTcW9kg==";
+        url = "https://registry.npmjs.org/oh-my-opencode-slim/-/oh-my-opencode-slim-0.9.9.tgz";
+        hash = "sha512-ifTaCpBZGaXfZa7mc19OTID/nMdULGd3hcM3DoYBXXXzxzJ2T56V6PG+du8KjOy0ZUJQPGWs7BuISdw9j1pcwQ==";
       }
     );
     "node_modules/on-finished/" = extractTarball (
