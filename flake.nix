@@ -20,7 +20,6 @@
       systems = [ "x86_64-linux" "aarch64-linux" "aarch64-darwin" "x86_64-darwin" ];
       perSystem = { config, self', inputs', pkgs, system, ... }:
         let
-          inherit (pkgs.callPackage ./default.nix {}) nodeDependencies;
           npm_deps = import ./npm-deps.nix { inherit pkgs; };
         in
         {
