@@ -29,11 +29,11 @@
           # system.
           devshells.default.devshell = {
             packages = [
-              pkgs.nodejs
               pkgs.bun
               inputs.bun3nix.packages.${system}.default
             ];
-            motd = "Welcome to the Opencode devshell!";
+            motd = "";
+            startup.start.text = ''echo "Welcome to Opencode" | ${pkgs.figlet}/bin/figlet -cf slant | ${pkgs.lolcat}/bin/lolcat'';
           };
 
           packages.default = pkgs.stdenv.mkDerivation {
