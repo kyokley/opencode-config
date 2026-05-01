@@ -1315,8 +1315,8 @@ let
     );
     "node_modules/oh-my-opencode-slim/" = extractTarball (
       pkgs.fetchurl {
-        url = "https://registry.npmjs.org/oh-my-opencode-slim/-/oh-my-opencode-slim-1.0.5.tgz";
-        hash = "sha512-5dhVYX8pfjTGiNRFmENEYhtuHfI2XJCAQxIAhodb/H7+UJGVh29oeKnRwjjtdT0XtsaLcSRjpr4EkrBALX7Akg==";
+        url = "https://registry.npmjs.org/oh-my-opencode-slim/-/oh-my-opencode-slim-1.0.6.tgz";
+        hash = "sha512-AUInssMmkQYXP94/qMwZ6GhKG7uibz9nIQLL5+8KTxQdwLoO6gGrE2C1aXD6HuQprV4aUYprIMx4DaBVmBByKg==";
       }
     );
     "node_modules/omggif/" = extractTarball (
