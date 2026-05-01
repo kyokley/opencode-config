@@ -38,7 +38,10 @@
             inputs.bun3nix.packages.${system}.default
           ];
           motd = "";
-          startup.start.text = ''echo "Welcome to Opencode" | ${pkgs.figlet}/bin/figlet -cf slant | ${pkgs.lolcat}/bin/lolcat'';
+          startup.start.text = ''
+            export OPENCODE_CONFIG_DIR=$(pwd)/configs
+            echo "Welcome to Opencode" | ${pkgs.figlet}/bin/figlet -cf slant | ${pkgs.lolcat}/bin/lolcat
+          '';
         };
 
         packages.default = pkgs.stdenv.mkDerivation {
