@@ -1,7 +1,7 @@
 {
   "name": "opencode",
   "dependencies": {
-    "oh-my-opencode-slim": "^1.0.6"
+    "oh-my-opencode-slim": "^1.0.7"
   },
   "scripts": {
     "postinstall": "nix run github:aabccd021/bun3nix postinstall > ./npm-deps.nix"
