@@ -1,9 +1,10 @@
 {
   "name": "opencode",
+  "version": "1.0.0",
   "dependencies": {
     "oh-my-opencode-slim": "^1.1.1"
   },
   "scripts": {
-    "postinstall": "nix run github:aabccd021/bun3nix postinstall > ./npm-deps.nix"
+    "postinstall": "bun2nix -o bun.nix"
   }
 }

@@ -4,7 +4,10 @@
   inputs = {
     flake-parts.url = "github:hercules-ci/flake-parts";
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    bun3nix.url = "github:aabccd021/bun3nix";
+    bun2nix = {
+      url = "github:nix-community/bun2nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     devshell.url = "github:numtide/devshell";
   };
 
@@ -27,7 +30,9 @@
         system,
         ...
       }: let
-        npm_deps = import ./npm-deps.nix {inherit pkgs;};
+        npm_deps = pkgs.callPackage ./default.nix {
+          bun2nix = inputs.bun2nix.packages.${system}.default;
+        };
       in {
         # Per-system attributes can be defined here. The self' and inputs'
         # module parameters provide easy access to attributes of the same
@@ -35,7 +40,7 @@
         devshells.default.devshell = {
           packages = [
             pkgs.bun
-            inputs.bun3nix.packages.${system}.default
+            inputs.bun2nix.packages.${system}.default
           ];
           motd = "";
           startup.start.text = ''
@@ -44,21 +49,25 @@
           '';
         };
 
-        packages.default = pkgs.stdenv.mkDerivation {
+        packages = {
+        inherit npm_deps;
+        default = pkgs.stdenv.mkDerivation {
           name = "opencode";
           src = ./.;
           buildInputs = [pkgs.makeWrapper];
           installPhase = ''
             mkdir -p $out/bin $out/lib
             cp -r ./configs $out/lib/
+            cp -r ${npm_deps}/lib/node_modules $out/lib/
 
             makeWrapper ${pkgs.opencode}/bin/opencode $out/bin/opencode \
-              --set NODE_PATH ${npm_deps}/lib/node_modules \
+              --set NODE_PATH ${self'.packages.npm_deps}/lib/node_modules \
               --prefix PATH : "${pkgs.lib.makeBinPath [
               pkgs.typescript-language-server
               pkgs.nixd
             ]}"
           '';
+        };
         };
 
         apps.default = {
