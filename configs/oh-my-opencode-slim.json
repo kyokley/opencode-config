@@ -1,109 +1,24 @@
 {
-  "preset": "dynamic",
+  "preset": "opencode-go",
   "presets": {
-    "dynamic": {
-      "oracle": {
-        "model": "github-copilot/gpt-5.3-codex",
-        "variant": "high",
-        "skills": [],
-        "mcps": []
-      },
-      "orchestrator": {
-        "model": "github-copilot/gpt-5.3-codex",
-        "skills": [
-          "*"
-        ],
-        "mcps": [
-          "websearch"
-        ]
-      },
-      "fixer": {
-        "model": "github-copilot/gpt-5.3-codex",
-        "variant": "low",
-        "skills": [],
-        "mcps": []
-      },
-      "designer": {
-        "model": "github-copilot/gpt-5.3-codex",
-        "variant": "medium",
-        "skills": [
-          "agent-browser"
-        ],
-        "mcps": []
-      },
-      "librarian": {
-        "model": "github-copilot/gpt-5.3-codex",
-        "variant": "low",
-        "skills": [],
-        "mcps": [
-          "websearch",
-          "context7",
-          "grep_app"
-        ]
-      },
-      "explorer": {
-        "model": "github-copilot/gpt-5.3-codex",
-        "variant": "low",
-        "skills": [],
-        "mcps": []
-      },
-      "council": {
-        "model": "github-copilot/gpt-5.4",
-        "master": {
-          "model": "github-copilot/gpt-5.4"
-        },
-        "presets": {
-          "default": {
-            "alpha": {
-              "model": "github-copilot/gpt-5.4-mini"
-            },
-            "beta": {
-              "model": "github-copilot/claude-haiku-4.5"
-            },
-            "gamma": {
-              "model": "github-copilot/gemini-3.1-pro"
-            },
-            "delta": {
-              "model": "github-copilot/gpt-5.3-codex"
-            }
-          }
-        }
-      }
+"openai": {
+      "orchestrator": { "model": "opencode/gpt-5.5", "skills": ["*"], "mcps": ["*", "!context7"] },
+      "oracle": { "model": "opencode/gpt-5.5", "variant": "high", "skills": ["simplify"], "mcps": [] },
+      "librarian": { "model": "opencode/gpt-5.4-mini", "variant": "low", "skills": [], "mcps": ["websearch", "context7", "grep_app"] },
+      "explorer": { "model": "opencode/gpt-5.4-mini", "variant": "low", "skills": [], "mcps": [] },
+      "designer": { "model": "opencode/gpt-5.4-mini", "variant": "medium", "skills": [], "mcps": [] },
+      "fixer": { "model": "opencode/gpt-5.4-mini", "variant": "low", "skills": [], "mcps": [] }
+      "council": { "model": "opencode/gpt-5.5", "variant": "high", "skills": [], "mcps": [] },
+    },
+    "opencode-go": {
+      "orchestrator": { "model": "opencode/glm-5.1", "skills": [ "*" ], "mcps": [ "*", "!context7" ] },
+      "oracle": { "model": "opencode/deepseek-v4-pro", "variant": "max", "skills": ["simplify"], "mcps": [] },
+      "council": { "model": "opencode/deepseek-v4-pro", "variant": "high", "skills": [], "mcps": [] },
+      "librarian": { "model": "opencode/minimax-m2.7", "skills": [], "mcps": [ "websearch", "context7", "grep_app" ] },
+      "explorer": { "model": "opencode/minimax-m2.7", "skills": [], "mcps": [] },
+      "designer": { "model": "opencode/kimi-k2.6", "variant": "medium", "skills": [], "mcps": [] },
+      "fixer": { "model": "opencode/deepseek-v4-flash", "variant": "high", "skills": [], "mcps": [] }
     }
   },
-  "balanceProviderUsage": true,
-  "fallback": {
-    "enabled": true,
-    "timeoutMs": 15000,
-    "chains": {
-      "oracle": [
-        "github-copilot/gpt-5.3-codex",
-        "github-copilot/gpt-5.4",
-        "opencode/big-pickle"
-      ],
-      "orchestrator": [
-        "github-copilot/gpt-5.3-codex",
-        "opencode/big-pickle"
-      ],
-      "fixer": [
-        "github-copilot/gpt-5.3-codex",
-        "opencode/big-pickle"
-      ],
-      "designer": [
-        "github-copilot/gpt-5.3-codex",
-        "github-copilot/gpt-5.4",
-        "opencode/big-pickle"
-      ],
-      "librarian": [
-        "github-copilot/gpt-5.3-codex",
-        "github-copilot/gpt-5.4",
-        "opencode/big-pickle"
-      ],
-      "explorer": [
-        "github-copilot/gpt-5.3-codex",
-        "github-copilot/gpt-5.4",
-        "opencode/big-pickle"
-      ]
-    }
-  }
+  "balanceProviderUsage": true
 }
